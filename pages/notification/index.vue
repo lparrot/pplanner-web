@@ -1,6 +1,6 @@
 <template>
   <div>
-    Homepage
+    Notifications
   </div>
 </template>
 
@@ -8,7 +8,8 @@
 import {Component, Vue} from 'nuxt-property-decorator'
 
 @Component({})
-export default class PageIndex extends Vue {
+export default class PageNotificationIndex extends Vue {
+
 }
 </script>
 

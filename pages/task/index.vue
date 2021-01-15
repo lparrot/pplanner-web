@@ -1,6 +1,6 @@
 <template>
   <div>
-    Homepage
+    Tasks
   </div>
 </template>
 
@@ -8,7 +8,8 @@
 import {Component, Vue} from 'nuxt-property-decorator'
 
 @Component({})
-export default class PageIndex extends Vue {
+export default class PageTaskIndex extends Vue {
+
 }
 </script>
 
