@@ -5,9 +5,14 @@ export default {
   // Target (https://go.nuxtjs.dev/config-target)
   target: 'static',
 
+  static: {
+    // Aucun préfixe ne sera rajouté au niveau du baseUrl pour les images par exemple
+    prefix: false,
+  },
+
   // Global page headers (https://go.nuxtjs.dev/config-head)
   head: {
-    title: 'pplanner-web',
+    title: 'PPlanner',
     meta: [
       { charset: 'utf-8' },
       { name: 'viewport', content: 'width=device-width, initial-scale=1' },
@@ -20,6 +25,8 @@ export default {
 
   // Global CSS (https://go.nuxtjs.dev/config-css)
   css: [
+    '@fortawesome/fontawesome-free/css/all.css',
+    '@/assets/styles/app.scss'
   ],
 
   // Plugins to run before rendering page (https://go.nuxtjs.dev/config-plugins)
@@ -43,12 +50,48 @@ export default {
     '@nuxtjs/axios',
     // https://go.nuxtjs.dev/pwa
     '@nuxtjs/pwa',
+    '@nuxtjs/auth',
+    '@/modules/app'
   ],
 
   // Axios module configuration (https://go.nuxtjs.dev/config-axios)
-  axios: {},
+  axios: {
+    prefix: '/api',
+    proxy: true,
+  },
+
+  proxy: {
+    '/api': {
+      target: 'http://[::1]:8080',
+      changeOrigin: false,
+    },
+  },
+
+  auth: {
+    cookie: false,
+    watchLoggedIn: false,
+    strategies: {
+      local: {
+        endpoints: {
+          login: {
+            url: '/auth/login',
+            method: 'post',
+            propertyName: 'data.token',
+          },
+          user: { url: '/auth/user', method: 'get', propertyName: 'data' },
+          logout: false,
+        },
+      },
+    },
+    redirect: {
+      callback: false,
+      home: '/',
+      login: '/login',
+      logout: '/login',
+    },
+  },
 
   // Build Configuration (https://go.nuxtjs.dev/config-build)
   build: {
-  }
+  },
 }
