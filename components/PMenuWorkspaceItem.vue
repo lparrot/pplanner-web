@@ -5,9 +5,9 @@
         <i :class="itemIcon" class="mr-2" @click="openOrCloseChildren"></i>
         <div class="text-base font-medium hover:underline" @click="selectItem(item)">{{ item.name }}</div>
       </div>
-      <div :class="{'text-white': selected, 'text-gray-400 hover:text-secondary': !selected}" class="flex gap-4">
-        <i class="flex fas fa-ellipsis-h cursor-pointer"></i>
-        <i v-if="openable" class="flex fas fa-plus-circle cursor-pointer"></i>
+      <div class="flex gap-4">
+        <i :class="{'text-white': selected, 'text-gray-400 hover:text-secondary': !selected}" class="flex fas fa-ellipsis-h cursor-pointer"></i>
+        <i v-if="openable" :class="{'text-white': selected, 'text-gray-400 hover:text-secondary': !selected}" class="flex fas fa-plus-circle cursor-pointer"></i>
       </div>
     </div>
     <transition name="scale-up-ver-top">
@@ -19,7 +19,7 @@
 </template>
 
 <script lang="ts">
-import {Action, Component, Prop, State, Vue} from "nuxt-property-decorator";
+import {Action, Component, Getter, Prop, Vue} from "nuxt-property-decorator";
 import {Fragment} from 'vue-fragment'
 
 @Component({
@@ -30,8 +30,7 @@ import {Fragment} from 'vue-fragment'
 export default class PMenuWorkspaceItem extends Vue {
   @Prop() item: Models.ListItem
 
-  @State('selectedProjectItem') selectedProjectItem
-  @State('selectedProject') selectedProject
+  @Getter('activeListItem') activeListItem
   @Action('selectProjectItem') selectProjectItem
 
   get itemIcon() {
@@ -48,7 +47,7 @@ export default class PMenuWorkspaceItem extends Vue {
   }
 
   get selected() {
-    return this.selectedProjectItem[this.selectedProject] === this.item.id
+    return this.activeListItem === this.item.id
   }
 
   get openable() {

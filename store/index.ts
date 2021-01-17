@@ -14,7 +14,9 @@ export type RootState = ReturnType<typeof state>
 /**
  * Getters
  */
-export const getters: GetterTree<RootState, RootState> = {}
+export const getters: GetterTree<RootState, RootState> = {
+  activeListItem: state => state.selectedProjectItem[state.selectedProject]
+}
 
 
 /**

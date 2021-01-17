@@ -17,7 +17,10 @@
                 Vous n'avez aucun favoris pour le moment.
               </template>
               <template v-else>
-
+                <div v-for="favorite in favorites" :key="favorite.id" :class="{'text-secondary': activeListItem === favorite.id}" class="flex justify-between items-center cursor-pointer text-primary hover:text-secondary">
+                  <div class="ml-1 mt-2 hover:underline" @click="handleClickFavorite(favorite)">{{ favorite.name }}</div>
+                  <i class="fas fa-ellipsis-h"></i>
+                </div>
               </template>
             </div>
           </transition>
@@ -47,7 +50,7 @@
 </template>
 
 <script lang="ts">
-import {Component, Vue} from "nuxt-property-decorator";
+import {Action, Component, Getter, Vue} from "nuxt-property-decorator";
 import PVerticalMenu from "../components/PVerticalMenu.vue";
 import {Fragment} from 'vue-fragment'
 import PMenuWorkspaceItem from "~/components/PMenuWorkspaceItem.vue";
@@ -60,6 +63,9 @@ import PMenuWorkspaceItem from "~/components/PMenuWorkspaceItem.vue";
   }
 })
 export default class PageParentTask extends Vue {
+  @Getter('activeListItem') activeListItem
+  @Action('selectProjectItem') selectProjectItem
+
   public visible: boolean = true
   public favorites: any[] = []
   public workspaces: Models.ListItem[] = []
@@ -68,6 +74,10 @@ export default class PageParentTask extends Vue {
     favoriteActions: false,
     favorites: false,
     workspaceActions: false
+  }
+
+  handleClickFavorite(favorite) {
+    this.selectProjectItem(favorite.id)
   }
 
   created() {
@@ -91,7 +101,8 @@ export default class PageParentTask extends Vue {
     ]
 
     this.favorites = [
-      {type: 'workspace', id: 1, name: 'CCS'}
+      {id: 1, type: 'workspace', name: 'CCS'},
+      {id: 3, type: 'list', name: 'Sprint 1'},
     ]
   }
 }
