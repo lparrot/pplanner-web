@@ -5,7 +5,7 @@ module.exports = {
   theme,
   variants: {
     extend: {
-      fontWeight: ['hover', 'focus']
+      fontWeight: ['hover', 'focus'],
     },
   },
   plugins: [],

@@ -1,4 +1,8 @@
 import Vue from "vue";
+import './models'
+
+declare module 'vue-fragment'
+declare module 'tinymotion'
 
 declare module '*.vue' {
   import Vue from 'vue';
@@ -8,7 +12,6 @@ declare module '*.vue' {
 declare module 'vue/types/vue' {
   // this
   interface Vue {
-    $accessor: typeof accessorType
     $auth: Auth
     $eventBus: Vue
   }
@@ -24,12 +27,11 @@ declare module "vue/types/options" {
 declare module '@nuxt/types' {
   // ctx.app
   interface NuxtAppOptions {
-    $accessor: typeof accessorType
   }
 
   // ctx
   interface Context {
     $auth: Auth
-    $accessor: typeof accessorType
   }
 }
+

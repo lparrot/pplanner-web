@@ -4,14 +4,14 @@ module.exports = {
   extend: {
     colors: {
       'default': colorsWithDefault(colors.gray),
-      'primary': colorsWithDefault(colors.red),
-      'secondary': colorsWithDefault(colors.orange),
+      'primary': colorsWithDefault(colors.blueGray),
+      'secondary': colorsWithDefault(colors.purple),
       'success': colorsWithDefault(colors.green),
       'info': colorsWithDefault(colors.blue),
       'warn': colorsWithDefault(colors.orange),
       'danger': colorsWithDefault(colors.red),
     },
-  },
+  }
 }
 
 function colorsWithDefault (colors) {

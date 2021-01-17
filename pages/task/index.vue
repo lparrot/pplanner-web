@@ -1,6 +1,6 @@
 <template>
   <div>
-    Tasks
+    Tâches
   </div>
 </template>
 

@@ -1,5 +1,5 @@
 <template>
-  <fragment>
+  <div class="flex">
     <div class="flex flex-col w-16 h-full py-4 justify-start items-center bg-primary text-white overflow-auto">
       <router-link to="/">
         <img alt="logo" class="w-12 p-2 mb-8 bg-white rounded" src="/logo.png">
@@ -23,34 +23,12 @@
         </div>
       </div>
     </div>
-
-    <div class="flex flex-col relative">
-      <div :class="{'hidden': !visibleSync, 'block': visibleSync}" class="w-52 border-r">
-
-      </div>
-      <div class="absolute top-0 right-0">
-        <div
-          :class="altButtonClasses"
-          class="flex justify-center items-center rounded-full bg-white w-8 h-8 text-gray-600 border -mr-4 mt-4 cursor-pointer"
-          @click="handleClickAltButton">
-          <i :class="altButtonIconClasses" class="text-xs"></i>
-        </div>
-      </div>
-    </div>
-
-  </fragment>
-
+  </div>
 </template>
 
 <script lang="ts">
-import {Component, Prop, PropSync, Vue} from 'nuxt-property-decorator'
+import {Component, Prop, Vue} from 'nuxt-property-decorator'
 import {Fragment} from 'vue-fragment'
-
-export interface PVerticalNavbarItem {
-  name: string
-  to: string | object
-  icon: string
-}
 
 @Component({
   components: {
@@ -58,24 +36,7 @@ export interface PVerticalNavbarItem {
   }
 })
 export default class PVerticalNavbar extends Vue {
-  @Prop() items!: PVerticalNavbarItem[]
-  @Prop({default: false}) showAltButton!: boolean
-
-  @PropSync('visible') visibleSync!: any
-
-  get altButtonClasses() {
-    return this.visibleSync ? 'bg-white' : 'bg-secondary'
-  }
-
-  get altButtonIconClasses() {
-    return this.visibleSync ? 'fas fa-chevron-left' : 'text-white fas fa-chevron-right'
-  }
-
-  handleClickAltButton() {
-    this.visibleSync = !this.visibleSync
-    console.log(this.visibleSync)
-  }
-
+  @Prop() items!: Models.PVerticalNavbarItem[]
 }
 </script>
 

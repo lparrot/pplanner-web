@@ -21,8 +21,10 @@
     "sass": "^1.32.4",
     "sass-loader": "^10.1.1",
     "tailwindcss": "^2.0.2",
+    "tinymotion": "^0.1.1",
     "vee-validate": "^3.4.5",
-    "vue-fragment": "^1.5.1"
+    "vue-fragment": "^1.5.1",
+    "vuex": "*"
   },
   "devDependencies": {
     "@nuxt/types": "^2.14.6",

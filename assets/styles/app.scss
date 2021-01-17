@@ -6,6 +6,11 @@ html, body, #__nuxt, #__layout {
 
 @layer components {
 
+  @import "components/animation";
   @import 'components/button';
 
+}
+
+.p-container {
+  @apply flex flex-col w-full pt-4 px-4 overflow-auto;
 }
