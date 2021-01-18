@@ -37,10 +37,16 @@
         <p-menu-workspace-item v-for="workspace in workspaces" :key="workspace.id" :item="workspace">
           <p-menu-workspace-item v-for="item in workspace.children" :key="item.id" :item="item">
             <template v-if="item.children">
-              <p-menu-workspace-item v-for="itemChild in item.children" :key="itemChild.id" :item="itemChild"></p-menu-workspace-item>
+              <p-menu-workspace-item v-for="itemChild in item.children" :key="itemChild.id"
+                                     :item="itemChild"></p-menu-workspace-item>
             </template>
           </p-menu-workspace-item>
         </p-menu-workspace-item>
+
+        <div class="text-gray-400 hover:text-secondary cursor-pointer mt-4">
+          <i class="fas fa-plus mr-2"></i>
+          <span>Nouvel espace de travail</span>
+        </div>
       </div>
     </p-vertical-menu>
     <div class="p-container">

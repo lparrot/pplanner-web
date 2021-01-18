@@ -8,9 +8,9 @@
     <div class="absolute top-0 right-0">
       <div
         :class="altButtonClasses"
-        class="flex justify-center items-center rounded-full bg-white w-8 h-8 text-gray-600 border -mr-4 mt-4 cursor-pointer"
+        class="flex justify-center items-center rounded-full bg-white w-6 h-6 text-gray-600 border -mr-3 mt-4 cursor-pointer"
         @click="handleClickAltButton">
-        <i :class="altButtonIconClasses" class="text-lg"></i>
+        <i :class="altButtonIconClasses"></i>
       </div>
     </div>
   </div>
@@ -28,7 +28,7 @@ export default class extends Vue {
   }
 
   get altButtonIconClasses() {
-    return this.visibleSync ? 'fas fa-caret-left' : 'text-white fas fa-caret-right'
+    return this.visibleSync ? 'fas fa-caret-left mr-0.5' : 'text-white fas fa-caret-right -mr-0.5'
   }
 
   handleClickAltButton() {
