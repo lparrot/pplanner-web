@@ -1,6 +1,6 @@
 <template>
   <fragment>
-    <div :class="{'bg-primary text-white': selected}" class="flex justify-between items-center cursor-pointer p-1 rounded">
+    <div :class="{'bg-primary text-white': selected}" class="flex justify-between items-center cursor-pointer px-2 py-1 rounded">
       <div class="flex items-center">
         <i :class="itemIcon" class="mr-2" @click="openOrCloseChildren"></i>
         <div class="text-base font-medium hover:underline" @click="selectItem(item)">{{ item.name }}</div>
@@ -19,7 +19,7 @@
 </template>
 
 <script lang="ts">
-import {Action, Component, Getter, Prop, Vue} from "nuxt-property-decorator";
+import {Action, Component, Getter, Inject, Prop, Provide, Vue} from "nuxt-property-decorator";
 import {Fragment} from 'vue-fragment'
 
 @Component({
@@ -28,6 +28,10 @@ import {Fragment} from 'vue-fragment'
   }
 })
 export default class PMenuWorkspaceItem extends Vue {
+  // Injection du parent dans chaque enfant
+  @Provide("parent") parentInstance = this
+  @Inject({default: null, from: "parent"}) parent!: PMenuWorkspaceItem
+
   @Prop() item: Models.ListItem
 
   @Getter('activeListItem') activeListItem
@@ -47,22 +51,35 @@ export default class PMenuWorkspaceItem extends Vue {
   }
 
   get selected() {
-    return this.activeListItem === this.item.id
+    const selected = this.activeListItem === this.item.id
+    if (selected && this.parent != null && !this.parent.item.opened) {
+      this.parent.open()
+    }
+    return selected
   }
 
   get openable() {
     return this.item.type !== 'list'
   }
 
+  open() {
+    if (this.openable) {
+      Vue.set(this.item, 'opened', true)
+      if (this.parent != null && !this.parent.item.opened) {
+        this.parent.open()
+      }
+    }
+  }
+
   openOrCloseChildren() {
     if (this.openable) {
-      console.log(this.item)
       Vue.set(this.item, 'opened', !this.item.opened)
     }
   }
 
   selectItem(item) {
     this.selectProjectItem(item.id)
+    this.$router.push(`/task/${item.id}`)
   }
 }
 </script>

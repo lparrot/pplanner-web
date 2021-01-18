@@ -49,6 +49,7 @@
         </div>
       </div>
     </p-vertical-menu>
+
     <div class="p-container">
       <nuxt-child></nuxt-child>
     </div>
@@ -56,7 +57,7 @@
 </template>
 
 <script lang="ts">
-import {Action, Component, Getter, Vue} from "nuxt-property-decorator";
+import {Action, Component, Getter, State, Vue} from "nuxt-property-decorator";
 import PVerticalMenu from "../components/PVerticalMenu.vue";
 import {Fragment} from 'vue-fragment'
 import PMenuWorkspaceItem from "~/components/PMenuWorkspaceItem.vue";
@@ -69,6 +70,7 @@ import PMenuWorkspaceItem from "~/components/PMenuWorkspaceItem.vue";
   }
 })
 export default class PageParentTask extends Vue {
+  @State('selectedProject') selectedProject
   @Getter('activeListItem') activeListItem
   @Action('selectProjectItem') selectProjectItem
 
@@ -84,6 +86,7 @@ export default class PageParentTask extends Vue {
 
   handleClickFavorite(favorite) {
     this.selectProjectItem(favorite.id)
+    this.$router.push(`/task/${favorite.id}`)
   }
 
   created() {
@@ -91,9 +94,8 @@ export default class PageParentTask extends Vue {
   }
 
   mocks() {
-    this.workspaces = this.$api.project.findAllWorkspaceWithChildrenByProjectId(1)
-
-    this.favorites = this.$api.favorite.findAllByProjectId(1)
+    this.workspaces = this.$api.task.findAllTaskByProjectId(this.selectedProject)
+    this.favorites = this.$api.favorite.findAllByProjectId(this.selectedProject)
   }
 }
 </script>

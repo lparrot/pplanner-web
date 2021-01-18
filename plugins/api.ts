@@ -7,6 +7,7 @@ export default ({store, $axios}, inject) => {
     apis: [
       'project.api.ts',
       'favorite.api.ts',
+      'task.api.ts',
     ],
   })
 
