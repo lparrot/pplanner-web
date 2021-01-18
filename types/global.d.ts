@@ -12,6 +12,7 @@ declare module '*.vue' {
 declare module 'vue/types/vue' {
   // this
   interface Vue {
+    $api: any
     $auth: Auth
     $eventBus: Vue
   }

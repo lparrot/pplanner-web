@@ -1,6 +1,6 @@
 <template>
   <fragment>
-    <div :class="{'bg-primary text-white': selected}" class="flex justify-between items-center cursor-pointer p-2 rounded">
+    <div :class="{'bg-primary text-white': selected}" class="flex justify-between items-center cursor-pointer p-1 rounded">
       <div class="flex items-center">
         <i :class="itemIcon" class="mr-2" @click="openOrCloseChildren"></i>
         <div class="text-base font-medium hover:underline" @click="selectItem(item)">{{ item.name }}</div>
@@ -56,8 +56,8 @@ export default class PMenuWorkspaceItem extends Vue {
 
   openOrCloseChildren() {
     if (this.openable) {
-      this.item.opened = !this.item.opened
       console.log(this.item)
+      Vue.set(this.item, 'opened', !this.item.opened)
     }
   }
 

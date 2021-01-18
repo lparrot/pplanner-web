@@ -85,25 +85,9 @@ export default class PageParentTask extends Vue {
   }
 
   mocks() {
-    this.workspaces = [
-      {
-        id: 1, type: 'workspace', name: 'CCS', opened: true, children: [
-          {
-            id: 2, type: 'folder', name: 'Sprints', opened: true, children: [
-              {id: 3, type: 'list', name: 'Sprint 1'},
-              {id: 4, type: 'list', name: 'Sprint 2'},
-            ]
-          },
-          {id: 5, type: 'list', name: 'Backlog'},
-          {id: 6, type: 'list', name: 'Bugs'},
-        ]
-      }
-    ]
+    this.workspaces = this.$api.project.findAllWorkspaceWithChildrenByProjectId(1)
 
-    this.favorites = [
-      {id: 1, type: 'workspace', name: 'CCS'},
-      {id: 3, type: 'list', name: 'Sprint 1'},
-    ]
+    this.favorites = this.$api.favorite.findAllByProjectId(1)
   }
 }
 </script>

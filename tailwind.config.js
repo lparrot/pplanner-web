@@ -10,6 +10,7 @@ module.exports = {
   },
   plugins: [],
   purge: {
-    enabled: false,
+    enabled: process.env.NODE_ENV === 'production',
+    content: ['./**/*.html', './**/*.scss', './**/*.vue'],
   },
 }
