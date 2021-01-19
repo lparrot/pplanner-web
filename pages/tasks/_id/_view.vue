@@ -10,16 +10,17 @@
             <i :class="view.icon" class="mr-1"></i>
             <span>{{ view.label }}</span>
           </p-tab-item>
-          <div class="h-6 border"></div>
+          <div class="h-6 border ml-2"></div>
           <div class="ml-2 cursor-pointer transform duration-200 hover:text-secondary hover:scale-110">
             <i class="fas fa-plus mr-1"></i>
             <span>Vue</span>
           </div>
         </p-tab-container>
       </div>
+
       <div class="flex flex-col border-t bg-primary-100 w-full h-full overflow-x-auto overflow-y-auto">
         <div class="px-4 pt-4">
-          Test
+          <nuxt-child></nuxt-child>
         </div>
       </div>
     </template>
@@ -27,6 +28,11 @@
     <template v-else>
       <div class="text-primary font-medium">Aucun workspace existant, merci de créer un workspace</div>
     </template>
+
+    <div class="fixed bottom-10 right-10 p-2 rounded-lg bg-secondary text-white font-bold shadow-2xl cursor-pointer">
+      <i class="fas fa-plus mr-2"></i>
+      <span>Tasks</span>
+    </div>
   </div>
 </template>
 
@@ -45,7 +51,7 @@ import PTabItem from "~/components/PTabItem.vue";
 export default class PageTaskIndex extends Vue {
 
   public task: Models.ProjectMenuItem = null
-  public views: any
+  public views: Models.TaskViewMenu[] = []
 
   get iconItem() {
     switch (this.task.type) {
@@ -56,19 +62,6 @@ export default class PageTaskIndex extends Vue {
       case 'workspace':
         return 'fas fa-globe'
     }
-  }
-
-  beforeRouteUpdate(to, from, next) {
-    if (to.params.view == null) {
-      return next({
-        name: 'tasks-id-view',
-        params: {
-          id: to.params.id,
-          view: 'list'
-        }
-      })
-    }
-    next()
   }
 
   async asyncData(ctx) {
@@ -90,32 +83,26 @@ export default class PageTaskIndex extends Vue {
     ctx.store.dispatch('selectProjectItem', parseInt(ctx.params.id))
 
     const item = ctx.$api.projects.findMenuItemById(parseInt(ctx.params.id))
+
     if (item == null) {
       return ctx.error({statusCode: 404, message: 'Element inexistante'})
     }
 
     return {
-      task: ctx.$api.tasks.findById(parseInt(ctx.params.id))
+      task: ctx.$api.tasks.findById(parseInt(ctx.params.id)),
+      views: [
+        {id: 1, name: 'list', label: 'Liste', icon: 'fas fa-th-list'},
+        {id: 2, name: 'kanban', label: 'Kanban', icon: 'fab fa-gitter'},
+        {id: 3, name: 'calendar', label: 'Calendrier', icon: 'fas fa-calendar-alt'},
+        {id: 4, name: 'gantt', label: 'Gantt', icon: 'fas fa-stream'},
+      ]
     }
   }
 
   created() {
-    this.views = [
-      {id: 1, name: 'list', label: 'Liste', icon: 'fas fa-th-list'},
-      {id: 2, name: 'kanban', label: 'Kanban', icon: 'fab fa-gitter'},
-      {id: 3, name: 'calendar', label: 'Calendrier', icon: 'fas fa-calendar-alt'},
-      {id: 4, name: 'gantt', label: 'Gantt', icon: 'fas fa-stream'},
-    ]
-
     this.$bus.$on('on-select-view-tab', (event) => {
       if (this.$route.params.view !== event.name) {
-        this.$router.push({
-          name: 'tasks-id-view',
-          params: {
-            id: this.$route.params.id,
-            view: event.name
-          }
-        })
+        this.$router.push(`/tasks/${this.$route.params.id}/${event.name}`)
       }
     })
   }

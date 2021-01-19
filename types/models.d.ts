@@ -13,4 +13,10 @@ declare namespace Models {
     children?: ProjectMenuItem[]
   }
 
+  interface TaskViewMenu {
+    id: number
+    name: string
+    label: string
+    icon?: string
+  }
 }
