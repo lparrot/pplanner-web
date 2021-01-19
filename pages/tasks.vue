@@ -50,7 +50,7 @@
       </div>
     </p-vertical-menu>
 
-    <div class="p-container">
+    <div class="p-container h-full">
       <nuxt-child></nuxt-child>
     </div>
   </fragment>

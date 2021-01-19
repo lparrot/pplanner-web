@@ -1,16 +1,22 @@
 <template>
-  <div>
+  <div class="h-full flex flex-col">
     <template v-if="task != null">
-      <div class="flex items-baseline gap-2 font-bold">
+      <div class="flex flex-row items-baseline gap-2 font-bold px-4">
         <i :class="iconItem" class="text-primary-400 text-sm"></i>
         <div class="text-primary-700 text-lg">{{ task.name }}</div>
 
         <p-tab-container>
-          <p-tab-item :active="$route.params.view === 'list'" name="list">Liste</p-tab-item>
-          <p-tab-item :active="$route.params.view === 'kanban'" name="kanban">Kanban</p-tab-item>
-          <p-tab-item :active="$route.params.view === 'calendar'" name="calendar">Calendrier</p-tab-item>
-          <p-tab-item :active="$route.params.view === 'gantt'" name="gantt">Gantt</p-tab-item>
+          <p-tab-item v-for="view in views" :key="view.id" :active="$route.params.view === view.name" :name="view.name">{{ view.label }}</p-tab-item>
+          <div class="ml-2 cursor-pointer transform duration-200 hover:text-secondary hover:scale-110">
+            <i class="fas fa-plus mr-1"></i>
+            <span>Vue</span>
+          </div>
         </p-tab-container>
+      </div>
+      <div class="flex flex-col border-t bg-primary-100 w-full h-full overflow-x-auto overflow-y-auto">
+        <div class="px-4 pt-4">
+          Test
+        </div>
       </div>
     </template>
 
@@ -35,6 +41,7 @@ import PTabItem from "~/components/PTabItem.vue";
 export default class PageTaskIndex extends Vue {
 
   public task: Models.ProjectMenuItem = null
+  public views: any
 
   get iconItem() {
     switch (this.task.type) {
@@ -52,7 +59,7 @@ export default class PageTaskIndex extends Vue {
       return next({
         name: 'tasks-id-view',
         params: {
-          id: firstWorkspace.id,
+          id: to.params.id,
           view: 'list'
         }
       })
@@ -89,6 +96,13 @@ export default class PageTaskIndex extends Vue {
   }
 
   created() {
+    this.views = [
+      {id: 1, name: 'list', label: 'Liste'},
+      {id: 2, name: 'kanban', label: 'Kanban'},
+      {id: 3, name: 'calendar', label: 'Calendrier'},
+      {id: 4, name: 'gantt', label: 'Gantt'},
+    ]
+
     this.$bus.$on('on-select-view-tab', (event) => {
       if (this.$route.params.view !== event.name) {
         this.$router.push({

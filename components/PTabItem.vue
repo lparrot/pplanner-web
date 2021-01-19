@@ -1,6 +1,7 @@
 <template>
-  <div :class="{'bg-secondary-400 text-white': active}"
-       class="px-3 py-2 rounded cursor-pointer hover:text-white hover:bg-secondary-400" @click="selectTab">
+  <div :class="{'bg-primary-100 border-t border-l border-r': active}"
+       class="px-4 py-3 rounded-t-xl cursor-pointer hover:bg-secondary-100"
+       @click="selectTab">
     <slot></slot>
   </div>
 </template>
