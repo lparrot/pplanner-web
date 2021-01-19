@@ -6,7 +6,11 @@
         <div class="text-primary-700 text-lg">{{ task.name }}</div>
 
         <p-tab-container>
-          <p-tab-item v-for="view in views" :key="view.id" :active="$route.params.view === view.name" :name="view.name">{{ view.label }}</p-tab-item>
+          <p-tab-item v-for="view in views" :key="view.id" :active="$route.params.view === view.name" :name="view.name">
+            <i :class="view.icon" class="mr-1"></i>
+            <span>{{ view.label }}</span>
+          </p-tab-item>
+          <div class="h-6 border"></div>
           <div class="ml-2 cursor-pointer transform duration-200 hover:text-secondary hover:scale-110">
             <i class="fas fa-plus mr-1"></i>
             <span>Vue</span>
@@ -97,10 +101,10 @@ export default class PageTaskIndex extends Vue {
 
   created() {
     this.views = [
-      {id: 1, name: 'list', label: 'Liste'},
-      {id: 2, name: 'kanban', label: 'Kanban'},
-      {id: 3, name: 'calendar', label: 'Calendrier'},
-      {id: 4, name: 'gantt', label: 'Gantt'},
+      {id: 1, name: 'list', label: 'Liste', icon: 'fas fa-th-list'},
+      {id: 2, name: 'kanban', label: 'Kanban', icon: 'fab fa-gitter'},
+      {id: 3, name: 'calendar', label: 'Calendrier', icon: 'fas fa-calendar-alt'},
+      {id: 4, name: 'gantt', label: 'Gantt', icon: 'fas fa-stream'},
     ]
 
     this.$bus.$on('on-select-view-tab', (event) => {
