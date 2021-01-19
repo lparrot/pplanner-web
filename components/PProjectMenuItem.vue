@@ -1,13 +1,16 @@
 <template>
   <fragment>
-    <div :class="{'bg-primary text-white': selected}" class="flex justify-between items-center cursor-pointer px-2 py-1 rounded">
+    <div :class="{'bg-primary text-white': selected}"
+         class="flex justify-between items-center cursor-pointer px-2 py-1 rounded">
       <div class="flex items-center">
         <i :class="itemIcon" class="mr-2" @click="openOrCloseChildren"></i>
         <div class="text-base font-medium hover:underline" @click="selectItem(item)">{{ item.name }}</div>
       </div>
       <div class="flex gap-4">
-        <i :class="{'text-white': selected, 'text-gray-400 hover:text-secondary': !selected}" class="flex fas fa-ellipsis-h cursor-pointer"></i>
-        <i v-if="openable" :class="{'text-white': selected, 'text-gray-400 hover:text-secondary': !selected}" class="flex fas fa-plus-circle cursor-pointer"></i>
+        <i :class="{'text-white': selected, 'text-gray-400 hover:text-secondary': !selected}"
+           class="flex fas fa-ellipsis-h cursor-pointer"></i>
+        <i v-if="openable" :class="{'text-white': selected, 'text-gray-400 hover:text-secondary': !selected}"
+           class="flex fas fa-plus-circle cursor-pointer"></i>
       </div>
     </div>
     <transition name="scale-up-ver-top">
@@ -27,12 +30,12 @@ import {Fragment} from 'vue-fragment'
     Fragment
   }
 })
-export default class PMenuWorkspaceItem extends Vue {
+export default class PProjectMenuItem extends Vue {
   // Injection du parent dans chaque enfant
   @Provide("parent") parentInstance = this
-  @Inject({default: null, from: "parent"}) parent!: PMenuWorkspaceItem
+  @Inject({default: null, from: "parent"}) parent!: PProjectMenuItem
 
-  @Prop() item: Models.ListItem
+  @Prop() item: Models.ProjectMenuItem
 
   @Getter('activeListItem') activeListItem
   @Action('selectProjectItem') selectProjectItem
@@ -40,11 +43,11 @@ export default class PMenuWorkspaceItem extends Vue {
   get itemIcon() {
     switch (this.item.type) {
       case 'workspace':
-        return 'fas fa-caret-down'
+        return this.item.opened ? 'fas fa-caret-down' : 'fas fa-caret-right'
       case 'list':
         return 'fas fa-list'
       case 'folder':
-        return 'fas fa-folder-open'
+        return this.item.opened ? 'fas fa-folder-open' : 'fas fa-folder'
       default:
         break;
     }
@@ -79,7 +82,7 @@ export default class PMenuWorkspaceItem extends Vue {
 
   selectItem(item) {
     this.selectProjectItem(item.id)
-    this.$router.push(`/task/${item.id}`)
+    this.$router.push(`/tasks/${item.id}`)
   }
 }
 </script>

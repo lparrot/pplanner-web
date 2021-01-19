@@ -34,14 +34,14 @@
             <i class="fas fa-search text-gray-400 cursor-pointer hover:text-secondary"></i>
           </div>
         </div>
-        <p-menu-workspace-item v-for="workspace in workspaces" :key="workspace.id" :item="workspace">
-          <p-menu-workspace-item v-for="item in workspace.children" :key="item.id" :item="item">
+        <p-project-menu-item v-for="workspace in workspaces" :key="workspace.id" :item="workspace">
+          <p-project-menu-item v-for="item in workspace.children" :key="item.id" :item="item">
             <template v-if="item.children">
-              <p-menu-workspace-item v-for="itemChild in item.children" :key="itemChild.id"
-                                     :item="itemChild"></p-menu-workspace-item>
+              <p-project-menu-item v-for="itemChild in item.children" :key="itemChild.id"
+                                   :item="itemChild"></p-project-menu-item>
             </template>
-          </p-menu-workspace-item>
-        </p-menu-workspace-item>
+          </p-project-menu-item>
+        </p-project-menu-item>
 
         <div class="text-gray-400 hover:text-secondary cursor-pointer mt-4">
           <i class="fas fa-plus mr-2"></i>
@@ -60,23 +60,24 @@
 import {Action, Component, Getter, State, Vue} from "nuxt-property-decorator";
 import PVerticalMenu from "../components/PVerticalMenu.vue";
 import {Fragment} from 'vue-fragment'
-import PMenuWorkspaceItem from "~/components/PMenuWorkspaceItem.vue";
+import PProjectMenuItem from "~/components/PProjectMenuItem.vue";
 
 @Component({
   components: {
-    PMenuWorkspaceItem,
+    PProjectMenuItem,
     Fragment,
     PVerticalMenu
   }
 })
 export default class PageParentTask extends Vue {
+
   @State('selectedProject') selectedProject
   @Getter('activeListItem') activeListItem
   @Action('selectProjectItem') selectProjectItem
 
   public visible: boolean = true
   public favorites: any[] = []
-  public workspaces: Models.ListItem[] = []
+  public workspaces: Models.ProjectMenuItem[] = []
 
   public show = {
     favoriteActions: false,
@@ -86,16 +87,14 @@ export default class PageParentTask extends Vue {
 
   handleClickFavorite(favorite) {
     this.selectProjectItem(favorite.id)
-    this.$router.push(`/task/${favorite.id}`)
+    this.$router.push(`/tasks/${favorite.id}`)
   }
 
-  created() {
-    this.mocks()
-  }
-
-  mocks() {
-    this.workspaces = this.$api.task.findAllTaskByProjectId(this.selectedProject)
-    this.favorites = this.$api.favorite.findAllByProjectId(this.selectedProject)
+  asyncData({$api, store}) {
+    return {
+      workspaces: $api.tasks.findAllTaskByProjectId(store.state.selectedProject),
+      favorites: $api.favorites.findAllByProjectId(store.state.selectedProject)
+    }
   }
 }
 </script>

@@ -20,7 +20,7 @@ export default class LayoutDefault extends Vue {
   created() {
     this.items = [
       {name: 'Accueil', to: '/', icon: 'fas fa-home'},
-      {name: 'Tâches', to: '/task', icon: 'fas fa-tasks'},
+      {name: 'Tâches', to: '/tasks', icon: 'fas fa-tasks'},
       {name: 'Notifications', to: '/notification', icon: 'fas fa-bell'},
       {name: 'Tableau de bord', to: '/dashboard', icon: 'fas fa-th-large'},
     ]

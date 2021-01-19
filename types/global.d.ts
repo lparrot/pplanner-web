@@ -1,8 +1,8 @@
 import Vue from "vue";
-import './models'
 
-declare module 'vue-fragment'
-declare module 'tinymotion'
+declare global {
+  declare module 'vue-fragment'
+}
 
 declare module '*.vue' {
   import Vue from 'vue';
@@ -12,9 +12,9 @@ declare module '*.vue' {
 declare module 'vue/types/vue' {
   // this
   interface Vue {
-    $api: any
+    $api: import('~/api').Repositories
     $auth: Auth
-    $eventBus: Vue
+    $bus: Vue
   }
 }
 
@@ -28,11 +28,15 @@ declare module "vue/types/options" {
 declare module '@nuxt/types' {
   // ctx.app
   interface NuxtAppOptions {
+    $api: import('~/api').Repositories
+    $bus: Vue
   }
 
   // ctx
   interface Context {
+    $api: import('~/api').Repositories
     $auth: Auth
+    $bus: Vue
   }
 }
 

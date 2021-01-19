@@ -5,12 +5,12 @@ declare namespace Models {
     icon: string
   }
 
-  interface ListItem {
+  interface ProjectMenuItem {
     id: number | string
-    type: 'workspace' | 'folder' | 'list'
+    type: 'workspace' | 'folder' | 'list' | string
     name: string
     opened?: boolean
-    children?: ListItem[]
+    children?: ProjectMenuItem[]
   }
 
 }

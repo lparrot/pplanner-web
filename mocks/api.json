@@ -22,19 +22,22 @@
       "id": 4,
       "type": "folder",
       "name": "Sprints",
-      "parent": 1
+      "parent": 1,
+      "project": 1
     },
     {
       "id": 5,
       "type": "folder",
       "name": "Sprints",
-      "parent": 2
+      "parent": 2,
+      "project": 1
     },
     {
       "id": 6,
       "type": "list",
       "name": "Sprint 1",
-      "parent": 4
+      "parent": 4,
+      "project": 1
     },
     {
       "id": 7,
@@ -46,31 +49,36 @@
       "id": 8,
       "type": "list",
       "name": "Sprint 1",
-      "parent": 5
+      "parent": 5,
+      "project": 1
     },
     {
       "id": 9,
       "type": "list",
       "name": "Sprint 2",
-      "parent": 5
+      "parent": 5,
+      "project": 1
     },
     {
       "id": 10,
       "type": "list",
       "name": "Sprint 3",
-      "parent": 5
+      "parent": 5,
+      "project": 1
     },
     {
       "id": 11,
       "type": "list",
       "name": "Sprint 1",
-      "parent": 3
+      "parent": 3,
+      "project": 1
     },
     {
       "id": 12,
       "type": "list",
       "name": "Sprint 1",
-      "parent": 3
+      "parent": 3,
+      "project": 1
     }
   ]
 }
