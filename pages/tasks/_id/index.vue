@@ -6,7 +6,8 @@
         <div class="text-primary-700 text-lg">{{ task.name }}</div>
 
         <p-tab-container>
-          <p-tab-item v-for="view in views" :key="view.id" :active="$route.params.view === view.name" :name="view.name">
+          <p-tab-item v-for="view in views"
+                      :key="view.id" :active="$route.query.view === view.name" :name="view.name">
             <i :class="view.icon" class="mr-1"></i>
             <span>{{ view.label }}</span>
           </p-tab-item>
@@ -19,9 +20,7 @@
       </div>
 
       <div class="flex flex-col border-t bg-primary-100 w-full h-full overflow-x-auto overflow-y-auto">
-        <div class="px-4 pt-4">
-          <nuxt-child></nuxt-child>
-        </div>
+        <component :is="viewComponent" v-model="task"></component>
       </div>
     </template>
 
@@ -64,6 +63,13 @@ export default class PageTaskIndex extends Vue {
     }
   }
 
+  get viewComponent() {
+    const viewComponent = this.views.find(view => view.name === this.$route.query.view)
+    if (viewComponent != null) {
+      return viewComponent.component
+    }
+  }
+
   async asyncData(ctx) {
     if (ctx.params.id == null) {
       // Si pas de paramètre, on récupère le premier workspace créé. S'il n'y en a pas, alors on retourne vide
@@ -72,7 +78,9 @@ export default class PageTaskIndex extends Vue {
         return ctx.redirect({
           name: 'tasks-id-view',
           params: {
-            id: firstWorkspace.id,
+            id: firstWorkspace.id
+          },
+          query: {
             view: 'list'
           }
         })
@@ -91,19 +99,17 @@ export default class PageTaskIndex extends Vue {
     return {
       task: ctx.$api.tasks.findById(parseInt(ctx.params.id)),
       views: [
-        {id: 1, name: 'list', label: 'Liste', icon: 'fas fa-th-list'},
-        {id: 2, name: 'kanban', label: 'Kanban', icon: 'fab fa-gitter'},
-        {id: 3, name: 'calendar', label: 'Calendrier', icon: 'fas fa-calendar-alt'},
-        {id: 4, name: 'gantt', label: 'Gantt', icon: 'fas fa-stream'},
+        {id: 1, name: 'list', label: 'Liste', icon: 'fas fa-th-list', component: 'p-view-list'},
+        {id: 2, name: 'kanban', label: 'Kanban', icon: 'fab fa-gitter', component: 'p-view-kanban'},
+        {id: 3, name: 'calendar', label: 'Calendrier', icon: 'fas fa-calendar-alt', component: 'p-view-calendar'},
+        {id: 4, name: 'gantt', label: 'Gantt', icon: 'fas fa-stream', component: 'p-view-gantt'},
       ]
     }
   }
 
   created() {
     this.$bus.$on('on-select-view-tab', (event) => {
-      if (this.$route.params.view !== event.name) {
-        this.$router.push(`/tasks/${this.$route.params.id}/${event.name}`)
-      }
+      this.$router.push({name: 'tasks-id', params: {id: this.$route.params.id}, query: {view: event.name}},)
     })
   }
 }

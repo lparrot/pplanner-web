@@ -7,6 +7,7 @@ import Vue from "vue";
 export const state = () => ({
   selectedProject: 1,
   selectedProjectItem: {},
+  tasks: []
 })
 
 export type RootState = ReturnType<typeof state>

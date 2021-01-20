@@ -37,6 +37,8 @@ export default {
   // Auto import components (https://go.nuxtjs.dev/config-components)
   components: [
     '~/components/',
+    {path: '~/components/views', global: true},
+    {path: '~/components/ihm', global: true}
   ],
 
   // Modules for dev and build (recommended) (https://go.nuxtjs.dev/config-modules)

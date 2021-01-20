@@ -18,5 +18,6 @@ declare namespace Models {
     name: string
     label: string
     icon?: string
+    component: string
   }
 }

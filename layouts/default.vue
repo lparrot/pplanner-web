@@ -1,7 +1,7 @@
 <template>
   <div class="h-full flex">
     <p-vertical-navbar :items="items" class="flex flex-col"></p-vertical-navbar>
-    <nuxt></nuxt>
+    <nuxt ref="nuxt_navigation"></nuxt>
   </div>
 </template>
 

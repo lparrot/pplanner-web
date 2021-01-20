@@ -1,7 +1,10 @@
 import Vue from "vue";
 
 declare global {
-  declare module 'vue-fragment'
+  declare module 'vue-fragment' {
+    class Fragment {
+    }
+  }
 }
 
 declare module '*.vue' {
