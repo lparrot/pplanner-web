@@ -5,7 +5,7 @@ import Vue from "vue";
  * State
  */
 export const state = () => ({
-  selectedProject: 1,
+  selectedProject: null,
   selectedProjectItem: {},
   tasks: []
 })
@@ -37,7 +37,7 @@ export const mutations: MutationTree<RootState> = {
  */
 export const actions: ActionTree<RootState, RootState> = {
   selectProject({commit}, id) {
-
+    commit('SET_PROJECT', id)
   },
 
   selectProjectItem({state, commit}, id) {

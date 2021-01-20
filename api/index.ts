@@ -3,9 +3,11 @@ import {NuxtAxiosInstance} from '@nuxtjs/axios';
 import {FavoritesApi} from '~/api/services/favorites.api';
 import {ProjectsApi} from '~/api/services/projects.api';
 import {TasksApi} from '~/api/services/tasks.api';
+import {ItemsApi} from '~/api/services/item';
 
 export interface Repositories {
   favorites: FavoritesApi
+  items: ItemsApi
   projects: ProjectsApi
   tasks: TasksApi
 }
@@ -19,6 +21,7 @@ export class Api {
     this._axios = axios
 
     this._createRepository('favorites', FavoritesApi)
+    this._createRepository('items', ItemsApi)
     this._createRepository('projects', ProjectsApi)
     this._createRepository('tasks', TasksApi)
   }

@@ -1,6 +1,9 @@
+import {NuxtAxiosInstance} from '@nuxtjs/axios';
+import {Store} from 'vuex';
+
 export class Repository {
-  private store;
-  private axios;
+  public store: Store<any>;
+  public axios: NuxtAxiosInstance;
 
   constructor(store, axios) {
     this.store = store;

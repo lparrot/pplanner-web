@@ -39,6 +39,7 @@
 import {Component, Vue} from 'nuxt-property-decorator'
 import PTabContainer from "~/components/PTabContainer.vue";
 import PTabItem from "~/components/PTabItem.vue";
+import {Context} from "@nuxt/types";
 
 
 @Component({
@@ -70,12 +71,12 @@ export default class PageTaskIndex extends Vue {
     }
   }
 
-  async asyncData(ctx) {
+  async asyncData(ctx: Context) {
     if (ctx.params.id == null) {
       // Si pas de paramètre, on récupère le premier workspace créé. S'il n'y en a pas, alors on retourne vide
       const firstWorkspace = ctx.$api.tasks.findFirstWorkspaceByProjectId(ctx.store.state.selectedProject)
       if (firstWorkspace != null) {
-        return ctx.redirect({
+        return ctx.next({
           name: 'tasks-id-view',
           params: {
             id: firstWorkspace.id
@@ -88,13 +89,7 @@ export default class PageTaskIndex extends Vue {
       return {item: null}
     }
 
-    ctx.store.dispatch('selectProjectItem', parseInt(ctx.params.id))
-
-    const item = ctx.$api.projects.findMenuItemById(parseInt(ctx.params.id))
-
-    if (item == null) {
-      return ctx.error({statusCode: 404, message: 'Element inexistante'})
-    }
+    await ctx.store.dispatch('selectProjectItem', parseInt(ctx.params.id))
 
     return {
       task: ctx.$api.tasks.findById(parseInt(ctx.params.id)),
@@ -105,6 +100,13 @@ export default class PageTaskIndex extends Vue {
         {id: 4, name: 'gantt', label: 'Gantt', icon: 'fas fa-stream', component: 'p-view-gantt'},
       ]
     }
+  }
+
+  beforeRouteUpdate(to, from, next) {
+    if (to.query.view == null) {
+      next({name: 'tasks-id', params: {id: this.$route.params.id}, query: {view: 'list'}})
+    }
+    next()
   }
 
   created() {

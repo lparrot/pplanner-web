@@ -61,6 +61,7 @@ import {Action, Component, Getter, State, Vue} from "nuxt-property-decorator";
 import PVerticalMenu from "../components/PVerticalMenu.vue";
 import {Fragment} from 'vue-fragment'
 import PProjectMenuItem from "~/components/PProjectMenuItem.vue";
+import {Context} from "@nuxt/types";
 
 @Component({
   components: {
@@ -90,10 +91,11 @@ export default class PageParentTask extends Vue {
     this.$router.push(`/tasks/${favorite.id}`)
   }
 
-  asyncData({$api, store}) {
+  async asyncData(ctx: Context) {
     return {
-      workspaces: $api.tasks.findAllTaskByProjectId(store.state.selectedProject),
-      favorites: $api.favorites.findAllByProjectId(store.state.selectedProject)
+      // workspaces: await ctx.$api.items.findAllByProjectId(ctx.store.state.selectedProject),
+      workspaces: ctx.$api.tasks.findAllTaskByProjectId(ctx.store.state.selectedProject),
+      favorites: ctx.$api.favorites.findAllByProjectId(ctx.store.state.selectedProject)
     }
   }
 }
